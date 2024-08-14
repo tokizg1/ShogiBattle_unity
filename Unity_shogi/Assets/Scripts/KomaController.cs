@@ -7,23 +7,26 @@ public class KomaController : MonoBehaviour
 {
     //スクリプトInputManagerを参照するための命名
     private InputManager inputManager;
+    private Rigidbody rb;
+
     //スワイプ状況
     public bool CanSwipe;
+
     //スワイプの強さ
     private float SwipeForceMultiplier = 10f;
 
-
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         CanSwipe = true;
         //InputManagerの参照
         inputManager = GameObject.Find("InputManager").GetComponent<InputManager>();
     }
 
-    public void SwipeKoma(Rigidbody rb)
+    public void SwipeKoma(Vector3 SwipeDistance)
     {
         //InputManagerのスワイプの距離を参照
-        Vector3 SwipeDistance = inputManager.SwipeMouse();
+
         //スワイプの方向の算出
         Vector3 SwipeDirection = -SwipeDistance.normalized;
         //スワイプの力の算出

@@ -8,25 +8,35 @@ public class MainSceneManager : MonoBehaviour
     //Camera,Rigidbodyの取得
     private Camera mainCamera;
     public Rigidbody rb;
+
     //prefabの盤、駒を参照
-    [SerializeField] GameObject Board;
-    [SerializeField] GameObject[] AllyKomas;
-    [SerializeField] GameObject[] EnemyKomas;
+    [SerializeField]
+    GameObject Board;
+
+    [SerializeField]
+    GameObject[] AllyKomas;
+
+    [SerializeField]
+    GameObject[] EnemyKomas;
+
     //駒の入れ替えのため駒の状況
     public int Now_ally;
     public int Now_Enemy;
+
     //オブジェクトの位置参照
     private Vector3 BoardPos = new Vector3(0, 0, 0);
     private Vector3 AllyPos = new Vector3(0.0f, 1.0f, -4.0f);
     private Vector3 EnemyPos = new Vector3(0.0f, 1.0f, 4.0f);
+
     //どっちのターンか
     public bool Player_which = true;
+
     //スクリプトKomaController,InputManagerを参照するための命名
     private KomaController komaController;
     private InputManager inputManager;
+
     //
     public bool RoundEnd = false;
-
 
     void Start()
     {
@@ -45,7 +55,7 @@ public class MainSceneManager : MonoBehaviour
         if (komaController.CanSwipe == true && inputManager.CanInput == false)
         {
             //スワイプ処理
-            komaController.SwipeKoma(rb);
+            komaController.SwipeKoma(inputManager.SwipeMouse());
         }
         if (komaController.CanSwipe == false && RoundEnd == false)
         {
@@ -57,7 +67,11 @@ public class MainSceneManager : MonoBehaviour
     {
         //盤、駒の設置
         Board = Instantiate(Board, BoardPos, Quaternion.Euler(0, 180, 0));
-        AllyKomas[Now_ally] = Instantiate(AllyKomas[Now_ally], AllyPos, Quaternion.Euler(0, 180, 0));
+        AllyKomas[Now_ally] = Instantiate(
+            AllyKomas[Now_ally],
+            AllyPos,
+            Quaternion.Euler(0, 180, 0)
+        );
         EnemyKomas[Now_Enemy] = Instantiate(EnemyKomas[Now_Enemy], EnemyPos, Quaternion.identity);
         //
         RoundEnd = false;
@@ -105,15 +119,11 @@ public class MainSceneManager : MonoBehaviour
         }
     }
 
-
     private void AddComponent()
     {
         /* AllyKomas[Now_ally].AddComponent<KomaController>();
         EnemyKomas[Now_Enemy].AddComponent<KomaController>();*/
-
     }
-
-
 
     //アタッチされているオブジェクトにColiderがついている。
     //範囲外にオブジェクト（駒）が出たら検知
